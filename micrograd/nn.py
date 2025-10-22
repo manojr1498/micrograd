@@ -11,7 +11,8 @@ class Module:
         return []
 
 class Neuron(Module):
-
+# Neuron Initialization 
+# random weights and bias  initialized for each neuron inputs
     def __init__(self, nin, nonlin=True):
         self.w = [Value(random.uniform(-1,1)) for _ in range(nin)]
         self.b = Value(0)
@@ -29,6 +30,10 @@ class Neuron(Module):
 
 class Layer(Module):
 
+#Num of Neuron Initialization done
+#Layer(2,16,nonlin=True) <> 16 neurons with 2 inputs x1,x2
+#Layer(16,16,nonlin=True) <> 16 neurons with 16 inputs xx1,xx2,xx3....xx16
+#Layer(16,1,nonlin=False) <> 1 neuron with 16 inputs
     def __init__(self, nin, nout, **kwargs):
         self.neurons = [Neuron(nin, **kwargs) for _ in range(nout)]
 
@@ -43,6 +48,15 @@ class Layer(Module):
         return f"Layer of [{', '.join(str(n) for n in self.neurons)}]"
 
 class MLP(Module):
+
+# MLP(2, [16, 16, 1])
+#nin = 2 ~ 2 inputs x1 and x2
+#nouts = [16, 16, 1] ~ 3 layers 
+#sz = [2, 16, 16, 1]
+#Layer initialization
+#Layer 1 2 inputs <> 16 outputs Layer(2,16,nonlin=True)
+#Layer 2 16 inputs <> 16 outpus Layer(16,16,nonlin=True)
+#Layer 3 16 outputs <> 1 output Layer(16,1,nonlin=False)
 
     def __init__(self, nin, nouts):
         sz = [nin] + nouts
